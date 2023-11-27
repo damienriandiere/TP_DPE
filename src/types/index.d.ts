@@ -1,5 +1,5 @@
-import { Request } from "express";
-import { Document } from "mongoose";
+import { Request } from 'express';
+import { Document } from 'mongoose';
 
 export interface User {
     name: string;
