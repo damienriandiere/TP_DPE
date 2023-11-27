@@ -1,9 +1,9 @@
 import jwt from 'jsonwebtoken';
-import { Response, NextFunction } from 'express';
 import * as process from 'process';
-import { AuthenticatedRequest, User } from '../types';
 import logger from '../loggers/logger';
 import UserModelMongoose from '../models/userModel';
+import { Response, NextFunction } from 'express';
+import { AuthenticatedRequest, User } from '../types';
 
 const accessExpire = process.env.ACCESS_TOKEN_EXPIRE;
 const refreshExpire = process.env.REFRESH_TOKEN_EXPIRE;

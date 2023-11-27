@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-const winston = require('winston');
+import winston from 'winston';
 import 'dotenv/config'
 
 const filename = process.env.LOG_FILE;

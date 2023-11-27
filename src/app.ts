@@ -2,9 +2,9 @@ import 'dotenv/config'
 import express from 'express'
 import helmet from 'helmet'
 import bodyParser from 'body-parser'
-import {connectDB} from './loaders/db'
 import routes from './loaders/routes'
 import logger from './loggers/logger'
+import {connectDB} from './loaders/db'
 
 (async () => {
     await connectDB()

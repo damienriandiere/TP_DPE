@@ -3,6 +3,7 @@ import { checkRefresh, createTokens, isAuthenticated } from '../services/auth';
 import { AuthenticatedRequest, UserModel } from '../types';
 import User from '../models/userModel';
 import logger from '../loggers/logger';
+
 const router = Router();
 
 router.get('/me', isAuthenticated, async (req: AuthenticatedRequest, res) => {
