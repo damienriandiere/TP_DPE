@@ -1,26 +1,27 @@
-import 'dotenv/config'
+import dotenv from 'dotenv'
 import express from 'express'
 import helmet from 'helmet'
-import bodyParser from 'body-parser'
-import routes from './loaders/routes'
-import logger from './loggers/logger'
-import {connectDB} from './loaders/db'
+import logger from './utils/logger'
+import mongoose from 'mongoose'
+import * as authRoutes from './routes/authRoutes'
+import * as userRoutes from './routes/userRoutes'
 
-(async () => {
-    await connectDB()
-})()
+dotenv.config()
+
+mongoose.connect(process.env.DB_URL, {})
+    .then(() => logger.info('Connected to MongoDB!'))
+    .catch((err) => logger.error(err.message));
 
 const app = express()
 
 app.disable('x-powered-by')
 app.use(helmet())
-app.use(bodyParser.json())
-routes(app)
+app.use(authRoutes.getRouter());
+app.use(userRoutes.getRouter());
 
 const PORT = process.env.PORT
 const URL = process.env.URL
+
 app.listen(PORT, () => {
     logger.info(`Server listening on http://${URL}:${PORT}`)
 });
-
-export default app
