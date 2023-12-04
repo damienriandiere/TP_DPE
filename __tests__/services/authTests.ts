@@ -3,8 +3,8 @@ import { describe, it, expect, beforeAll, afterAll } from "@jest/globals";
 import mongoose from "mongoose";
 import logger from "../../src/utils/logger";
 
-import * as authService from "../../src/services/authServices";
-import { deleteUser } from "../../src/services/userServices";
+import * as authService from "../../src/services/authService";
+import { deleteUser } from "../../src/services/userService";
 
 describe("Test auth service", () => {
   beforeAll(async () => {
@@ -14,16 +14,16 @@ describe("Test auth service", () => {
     } else {
       logger.error("DB_URL is not defined");
     }
-});
+  });
   afterAll(async () => {
     await mongoose.connection.close();
-});
+  });
 
-it("Should be able to create a user.", async () => {
+  it("Should be able to create a user.", async () => {
     const user = await authService.register(
-        "Henri Dupont",
-        "henri.dupont@outlook.fr",
-        "helloworld"
+      "Henri Dupont",
+      "henri.dupont@outlook.fr",
+      "helloworld"
     );
 
     expect(user).toHaveProperty("accessToken");
@@ -31,32 +31,32 @@ it("Should be able to create a user.", async () => {
     expect(user).toHaveProperty("userProfile");
 
     await deleteUser(user.userProfile.id.toString());
-});
+  });
 
-it("Should not be able to create a user with an existing email.", async () => {
+  it("Should not be able to create a user with an existing email.", async () => {
     let user;
     try {
-        user = await authService.register(
-            "Henri Dupont",
-            "henri.dupont@outlook.fr",
-            "helloworld"
-        );
-        await authService.register(
-            "Henri Dupont",
-            "henri.dupont@outlook.fr",
-            "helloworld"
-        );
+      user = await authService.register(
+        "Henri Dupont",
+        "henri.dupont@outlook.fr",
+        "helloworld"
+      );
+      await authService.register(
+        "Henri Dupont",
+        "henri.dupont@outlook.fr",
+        "helloworld"
+      );
     } catch (error) {
       await deleteUser(user.userProfile.id);
       expect(error.message).toBe("User already exists !");
     }
-});
+  });
 
-it("Should be able to login a user.", async () => {
+  it("Should be able to login a user.", async () => {
     const user = await authService.register(
-        "Henri Dupont",
-        "henri.dupont@outlook.fr",
-        "helloworld"
+      "Henri Dupont",
+      "henri.dupont@outlook.fr",
+      "helloworld"
     );
 
     const login = await authService.login("henri.dupont@outlook.fr", "helloworld");
@@ -66,26 +66,26 @@ it("Should be able to login a user.", async () => {
     expect(login).toHaveProperty("userProfile");
 
     await deleteUser(user.userProfile.id.toString());
-});
+  });
 
-it("Should not be able to login a user with an unregistered email.", async () => {
+  it("Should not be able to login a user with an unregistered email.", async () => {
     try {
       await authService.login("henri.dupont@outlook.fr", "helloworld");
     } catch (error) {
       expect(error.message).toBe("User not found !");
     }
-});
+  });
 
-it("Should not be able to login a user with the wrong password.", async () => {
+  it("Should not be able to login a user with the wrong password.", async () => {
     let user;
     try {
-        user = await authService.register(
-            "Henri Dupont",
-            "henri.dupont@outlook.fr",
-            "helloworld"
-        );
+      user = await authService.register(
+        "Henri Dupont",
+        "henri.dupont@outlook.fr",
+        "helloworld"
+      );
 
-        await authService.login("henri.dupont@outlook.fr", "BonjourMonde");
+      await authService.login("henri.dupont@outlook.fr", "BonjourMonde");
     } catch (error) {
       await deleteUser(user.userProfile.id);
       expect(error.message).toBe("Incorrect password !");

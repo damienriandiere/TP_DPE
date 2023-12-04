@@ -1,8 +1,8 @@
 import { Router } from "express";
-import * as saveSearchControllers from "../controllers/saveSearchControllers";
-import { authMiddleware } from "../middlewares/authMiddlewares";
+import * as saveSearchControllers from "../controllers/saveSearchController";
+import { authMiddleware } from "../middlewares/authMiddleware";
 
-export function getRouter(){
+export function getRouter() {
     const router = Router();
 
     router.get('/saveSearches/:page', authMiddleware, saveSearchControllers.getSearches);

@@ -1,6 +1,6 @@
 import { Response, NextFunction } from 'express'
-import * as userServices from '../services/userServices'
-import { AuthenticatedRequest} from '../types'
+import * as userServices from '../services/userService'
+import { AuthenticatedRequest } from '../types'
 
 export async function deleteUser(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {

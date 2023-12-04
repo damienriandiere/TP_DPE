@@ -3,10 +3,11 @@ import express from 'express'
 import helmet from 'helmet'
 import logger from './utils/logger'
 import mongoose from 'mongoose'
-import * as authRoutes from './routes/authRoutes'
-import * as userRoutes from './routes/userRoutes'
-import * as geolocalisationRoutes from './routes/geolocalisationRoutes'
-import * as saveSearchRoute from './routes/saveSearchRoutes'
+import bodyParser from 'body-parser'
+import * as authRoutes from './routes/authRoute'
+import * as userRoutes from './routes/userRoute'
+import * as geolocalisationRoutes from './routes/geolocationRoute'
+import * as saveSearchRoute from './routes/saveSearchRoute'
 
 dotenv.config()
 
@@ -18,6 +19,7 @@ const app = express()
 
 app.disable('x-powered-by')
 app.use(helmet())
+app.use(bodyParser.json())
 app.use(authRoutes.getRouter());
 app.use(userRoutes.getRouter());
 app.use(geolocalisationRoutes.getRouter());

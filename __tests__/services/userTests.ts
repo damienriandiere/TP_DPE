@@ -3,8 +3,8 @@ import { describe, it, expect, beforeAll, afterAll } from "@jest/globals";
 import mongoose from "mongoose";
 import logger from "../../src/utils/logger";
 
-import * as userService from "../../src/services/userServices";
-import { register } from "../../src/services/authServices";
+import * as userService from "../../src/services/userService";
+import { register } from "../../src/services/authService";
 
 describe("Test user services", () => {
   beforeAll(async () => {

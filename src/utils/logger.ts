@@ -9,13 +9,13 @@ if (fs.existsSync(filename)) {
 }
 
 const transports = [
-    new winston.transports.File({ filename : filename })
+  new winston.transports.File({ filename: filename })
 ];
 
 const logger = winston.createLogger({
-    level: 'info',
-    format: winston.format.simple(),
-    transports: transports
+  level: 'info',
+  format: winston.format.simple(),
+  transports: transports
 });
 
 export default logger;

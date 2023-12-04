@@ -5,7 +5,7 @@ export interface UserAccount {
     name: string;
     email: string;
 }
-  
+
 export interface AuthenticatedRequest extends Request {
     user: UserAccount;
 }

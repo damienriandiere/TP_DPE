@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken';
 import logger from '../utils/logger';
-import UserModel from '../models/userModels';
+import UserModel from '../models/userModel';
 import { createTokens, hashPassword, comparePassword } from '../utils/authUtils';
-import { getUserProfile } from './userServices';
+import { getUserProfile } from './userService';
 
 
 export async function register(name: string, email: string, password: string) {
@@ -25,7 +25,7 @@ export async function register(name: string, email: string, password: string) {
 
     const userProfile = await getUserProfile(newUser._id);
 
-    return { ...createTokens(userProfile) , userProfile};
+    return { ...createTokens(userProfile), userProfile };
 }
 
 export function refresh(refreshToken: string) {

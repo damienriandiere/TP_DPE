@@ -1,17 +1,16 @@
-import {Response, NextFunction} from 'express'
+import { Response, NextFunction } from 'express'
 import { AuthenticatedRequest } from '../types'
 import logger from '../utils/logger'
-import * as geolocalisationServices from '../services/geolocalisationServices'
-import { saveSearch } from '../services/saveSearchServices'
+import * as geolocalisationServices from '../services/geolocationService'
+import { saveSearch } from '../services/saveSearchService'
 
 export async function getGeolocalisation(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
-        const {dpe, ges, zipcode, surface} = req.params;
+        const { dpe, ges, zipcode, surface } = req.params;
 
         const connectedUser = req.user;
 
         const result = await geolocalisationServices.getGeolocalisation(dpe, ges, parseInt(zipcode), parseInt(surface));
-        logger.info(`Geolocalisation result: ${result}`);
 
         await saveSearch(connectedUser, dpe, ges, parseInt(zipcode), parseInt(surface), result);
         logger.info(`Search saved`);

@@ -14,7 +14,7 @@ export function authMiddleware(req: AuthenticatedRequest, res: Response, next: N
 
     jwt.verify(token, accessKey as string, async (err, user) => {
         if (err) {
-            return res.status(403).json({ message: 'Invalid token' })
+            return res.status(403).json({ message: 'Invalid token' + err.message })
         }
 
         req.user = user as UserAccount;

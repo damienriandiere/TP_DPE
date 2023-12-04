@@ -1,10 +1,10 @@
-import {Response, NextFunction} from 'express'
+import { Response, NextFunction } from 'express'
 import { AuthenticatedRequest } from '../types'
-import * as saveSearchServices from '../services/saveSearchServices'
+import * as saveSearchServices from '../services/saveSearchService'
 
-export async function getSearches(req : AuthenticatedRequest, res : Response, next : NextFunction) {
+export async function getSearches(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
-        const {page} = req.params;
+        const { page } = req.params;
         const connectedUser = req.user;
 
         const result = await saveSearchServices.getSearches(connectedUser, parseInt(page));
@@ -15,12 +15,12 @@ export async function getSearches(req : AuthenticatedRequest, res : Response, ne
     }
 }
 
-export async function relaunchSearch(req : AuthenticatedRequest, res : Response, next : NextFunction) {
+export async function relaunchSearch(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
-        const {id} = req.params;
+        const { id } = req.params;
         const connectedUser = req.user;
 
-        const result = await saveSearchServices.relaunchSearch(connectedUser, id);
+        const result = await saveSearchServices.relaunchSearch(id, connectedUser)
         res.status(200).json({ success: true, result });
     } catch (error: any) {
         res.status(400).json({ success: false, message: error.message });
@@ -28,12 +28,12 @@ export async function relaunchSearch(req : AuthenticatedRequest, res : Response,
     }
 }
 
-export async function deleteSearch(req : AuthenticatedRequest, res : Response, next : NextFunction) {
+export async function deleteSearch(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
-        const {id} = req.params;
+        const { id } = req.params;
         const connectedUser = req.user;
 
-        const result = await saveSearchServices.deleteSearch(connectedUser, id);
+        const result = await saveSearchServices.deleteSearch(id);
         res.status(200).json({ success: true, result });
     } catch (error: any) {
         res.status(400).json({ success: false, message: error.message });

@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import * as authService from '../services/authServices';
+import * as authService from '../services/authService';
 import logger from '../utils/logger';
 
 export async function register(req: Request, res: Response) {
     try {
         const { name, email, password } = req.body;
-
+        logger.info('New user creation... : ' + name + ' ' + email)
         const newUser = await authService.register(name, email, password);
         logger.info('New user created !')
         res.status(201).json({ success: true, newUser });
