@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import { authMiddleware } from '../middleware/authMiddleware';
+import { authMiddleware } from '../middlewares/authMiddlewares';
 import * as userController from '../controllers/userControllers';
 
 export function getRouter(){

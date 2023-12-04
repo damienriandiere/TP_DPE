@@ -1,6 +1,6 @@
 import { Router } from "express";
 import * as geolocalisationControllers from "../controllers/geolocalisationControllers";
-import { authMiddleware } from "../middleware/authMiddleware";
+import { authMiddleware } from "../middlewares/authMiddlewares";
 
 export function getRouter(){
     const router = Router();
