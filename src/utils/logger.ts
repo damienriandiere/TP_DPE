@@ -9,7 +9,6 @@ if (fs.existsSync(filename)) {
 }
 
 const transports = [
-    new winston.transports.Console(),
     new winston.transports.File({ filename : filename })
 ];
 
