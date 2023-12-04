@@ -1,4 +1,4 @@
-import User from '../models/userModel';
+import User from '../models/userModels';
 import logger from '../utils/logger';
 
 export async function getUserProfile(userId: any) {

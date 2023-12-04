@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import logger from '../utils/logger';
-import UserModel from '../models/userModel';
+import UserModel from '../models/userModels';
 import { createTokens, hashPassword, comparePassword } from '../utils/authUtils';
 import { getUserProfile } from './userServices';
 
