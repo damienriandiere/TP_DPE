@@ -5,6 +5,8 @@ import logger from './utils/logger'
 import mongoose from 'mongoose'
 import * as authRoutes from './routes/authRoutes'
 import * as userRoutes from './routes/userRoutes'
+import * as geolocalisationRoutes from './routes/geolocalisationRoutes'
+import * as saveSearchRoute from './routes/saveSearchRoutes'
 
 dotenv.config()
 
@@ -18,6 +20,8 @@ app.disable('x-powered-by')
 app.use(helmet())
 app.use(authRoutes.getRouter());
 app.use(userRoutes.getRouter());
+app.use(geolocalisationRoutes.getRouter());
+app.use(saveSearchRoute.getRouter());
 
 const PORT = process.env.PORT
 const URL = process.env.URL
@@ -25,3 +29,5 @@ const URL = process.env.URL
 app.listen(PORT, () => {
     logger.info(`Server listening on http://${URL}:${PORT}`)
 });
+
+export default app
