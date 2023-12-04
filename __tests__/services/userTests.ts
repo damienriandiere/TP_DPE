@@ -18,7 +18,7 @@ describe("Test user services", () => {
   });
   afterAll(async () => {
     await mongoose.connection.close();
-});
+  });
 
   it("Should be able to get a user profile.", async () => {
     const user = await register(
