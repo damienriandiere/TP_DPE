@@ -9,7 +9,7 @@ const searchesSchema = new Schema({
     Etiquette_DPE: String,
     Etiquette_GES: String,
     "Code_postal_(BAN)": Number,
-    Surface_habitable_logement: Number,
+    "Surface_habitable_logement": Number,
   },
   results: [{
     DPE : {

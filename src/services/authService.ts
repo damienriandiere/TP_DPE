@@ -6,13 +6,19 @@ import { getUserProfile } from './userService'
 
 
 export async function register(name: string, email: string, password: string) {
-    const findUser = await UserModel.findOne({ email: email });
+    if(!isEmailValid(email)) {
+        logger.error('Email is not valid ! Please respect this format : example@example.example.')
+        throw new Error('Email is not valid ! Please respect this format : example@example.example.')
+    } 
+
+    const findUser = await UserModel.findOne({ email: email })
+
     if (findUser) {
         logger.error('User already exists !')
         throw new Error('User already exists !')
     }
 
-    const hashedPassword = await hashPassword(password);
+    const hashedPassword = await hashPassword(password)
     logger.info('Password hashed !')
 
     const newUser = new UserModel({
@@ -58,3 +64,9 @@ export async function login(email: string, password: string) {
 
     return { ...createTokens(userProfile), userProfile }
 }
+
+export function isEmailValid(email: string): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  
+    return emailRegex.test(email)
+  }

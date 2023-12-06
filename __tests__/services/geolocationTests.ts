@@ -4,6 +4,7 @@ import { describe, it, expect, beforeAll, afterAll } from "@jest/globals";
 import mongoose from "mongoose";
 import { register } from "../../src/services/authService";
 import { deleteUser } from "../../src/services/userService";
+import { deleteSearch } from "../../src/services/saveSearchService";
 import * as geolocService from "../../src/services/geolocationService";
 
 describe("Test geolocalisation service", () => {
@@ -42,5 +43,21 @@ describe("Test geolocalisation service", () => {
     expect(geoloc[0]["longitude"]).toBe("0.1384752");
 
     await deleteUser(user.userProfile.id.toString());
+  });
+
+  it("Not should be able to get address", async () => {
+    try {
+      const address = await geolocService.getAddress("A", "A", 72300, 2)
+    } catch (error) {
+      expect(error.message).toBe("No DPE found in database. Please try again with different parameters or contact us if the problem persists.")
+    }
+  });
+
+  it("Not should be able to get geoloc", async () => {
+    try {
+      const address = await geolocService.getGeolocalisation("A", "A", 72300, 192)
+    } catch (error) {
+      expect(error.message).toBe("No geolocalisation found")
+    }
   });
 });

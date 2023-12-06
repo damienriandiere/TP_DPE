@@ -1,4 +1,5 @@
 import User from '../models/userModel'
+import SearchesModel from "../models/searchModel"
 import logger from '../utils/logger'
 
 export async function getUserProfile(userId: any) {
@@ -20,6 +21,10 @@ export async function deleteUser(userId: string) {
         logger.error('User not found !')
         throw new Error('User not found !')
     } else {
+        const userSearches = await SearchesModel.find({ user: userId })
+        for (let i = 0; i < userSearches.length; i++) {
+            await SearchesModel.deleteOne({ _id: userSearches[i]._id })
+        }
         await User.deleteOne({ _id: userId })
         logger.info('User deleted !')
         return { message: 'User deleted !' }

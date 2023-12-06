@@ -6,7 +6,6 @@ import * as geolocationServices from "./geolocationService"
 
 export async function saveSearch(connectedUser: UserAccount, dpe: string, ges: string, zipcode: number, surface: number, results: any) {
     const user = await UserModel.findById(connectedUser.id)
-
     if (!user){
         logger.error("User not found. Search not saved")
         throw new Error("User not found. Search not saved")
@@ -15,7 +14,7 @@ export async function saveSearch(connectedUser: UserAccount, dpe: string, ges: s
             "Etiquette_DPE" : dpe,
             "Etiquette_GES": ges,
             "Code_postal_(BAN)": zipcode,
-            "Surface habitable": surface
+            "Surface_habitable_logement": surface
         }
         const savedSearch = new SearchesModel({
             user: user._id,
@@ -49,9 +48,10 @@ export async function relaunchSearch(id: string, connectedUser: UserAccount) {
     if (await SearchesModel.exists({ _id: id })) {
         logger.info("Search found.")
         const search = await SearchesModel.findById(id);
+        logger.info(search.parameters)
         const { Etiquette_DPE, Etiquette_GES, "Code_postal_(BAN)": zipcode, "Surface_habitable_logement": surface } = search.parameters
         logger.info("Search parameters found.")
-        const result = await geolocationServices.getGeolocalisation(Etiquette_DPE, Etiquette_GES, zipcode, surface)
+        const result = await geolocationServices.getGeolocalisation(Etiquette_DPE, Etiquette_GES, parseInt(zipcode.toString()), parseInt(surface.toString()))
         logger.info("Relaunch done.")
         await saveSearch(connectedUser, Etiquette_DPE, Etiquette_GES, parseInt(zipcode.toString()), parseInt(surface.toString()), result)
         logger.info("Search saved.")

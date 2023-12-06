@@ -85,6 +85,18 @@ describe("Test auth service", () => {
     }
   });
 
+  it("Should not be able to register a user with an incorrect email format.", async () => {
+    try {
+      const user = await authService.register(
+        "Henri Dupont",
+        "email",
+        "helloworld"
+      );
+    } catch (error) {
+      expect(error.message).toBe("Email is not valid ! Please respect this format : example@example.example.")
+    }
+  });
+
   it("Should not be able to login a user with the wrong password.", async () => {
     let user;
     try {

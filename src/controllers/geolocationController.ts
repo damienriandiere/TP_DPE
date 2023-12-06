@@ -17,7 +17,7 @@ export async function getGeolocalisation(req: AuthenticatedRequest, res: Respons
 
         res.status(200).json({ success: true, result })
     } catch (error: any) {
-        logger.error(`Error: ${error.message}`)
+        logger.error(error.message)
         res.status(400).json({ success: false, message: error.message })
         next(error)
     }
