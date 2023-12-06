@@ -13,6 +13,6 @@ const depSchema = new Schema({
     "Code_postal_(BAN)": Number,
 });
 
-const Dep = model(process.env.DPE_COLLECTION, depSchema);
+const DPE = model(process.env.DPE_COLLECTION, depSchema);
 
-export default Dep;
+export default DPE;

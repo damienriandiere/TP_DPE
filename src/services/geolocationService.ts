@@ -1,5 +1,5 @@
 import axios from "axios";
-import Dpe from "../models/dpeModel";
+import DPE from "../models/dpeModel";
 import logger from "../utils/logger";
 
 export async function getGeolocalisation(dpe: string, ges: string, zipcode: number, surface: number) {
@@ -25,7 +25,7 @@ export async function getGeolocalisation(dpe: string, ges: string, zipcode: numb
       });
     } else {
       logger.error("No geolocalisation found for " + address[i].address)
-      throw new Error('No geoloc found');
+      throw new Error('No geolocalisation found');
     }
   }
   logger.info(geolocalisation.length + " geolocalisation found")
@@ -34,7 +34,7 @@ export async function getGeolocalisation(dpe: string, ges: string, zipcode: numb
 
 
 export async function getAddress(dpe: string, ges: string, zipcode: number, surface: number) {
-  const dpeFind = await Dpe.find({
+  const dpeFind = await DPE.find({
     $and: [
       { Etiquette_DPE: dpe },
       { Etiquette_GES: ges },

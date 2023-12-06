@@ -1,4 +1,4 @@
-import SearchesModel from "../models/searchesModel";
+import SearchesModel from "../models/searchModel";
 import UserModel from "../models/userModel";
 import logger from "../utils/logger";
 import { UserAccount } from "../types";

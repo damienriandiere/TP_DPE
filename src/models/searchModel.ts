@@ -23,6 +23,6 @@ const searchesSchema = new Schema({
   }]
 });
 
-const SearchesModel = model(process.env.SEARCHES_COLLECTION, searchesSchema);
+const Search = model(process.env.SEARCHES_COLLECTION, searchesSchema);
 
-export default SearchesModel;
+export default Search;

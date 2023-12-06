@@ -5,7 +5,7 @@ import * as userController from '../controllers/userController';
 export function getRouter() {
     const router = Router();
 
-    router.delete('/user', authMiddleware, userController.deleteUser);
+    router.delete('/api/v1/user', authMiddleware, userController.deleteUser);
 
     return router;
 }

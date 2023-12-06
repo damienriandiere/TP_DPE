@@ -1,0 +1,381 @@
+openapi: 3.0.3
+info:
+  title: TP_DPE
+  description: API
+  version: 1.0.0
+servers:
+  -   url: http://localhost:3000
+      description: Development server
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ApiError:
+      type: object
+      properties:
+        success:
+          type: boolean
+          default: false
+        message:
+          type: string
+    ApiSuccess:
+      type: object
+      properties:
+        success:
+          type: boolean
+          default: true
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+    UserToken:
+      type: object
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
+        tokens:
+          type: object
+          properties:
+            accessToken:
+              type: string
+            refreshToken:
+              type: string
+            expiresIn:
+              type: number
+            refreshExpiresIn:
+              type: number
+    DPE:
+      type: object
+      properties:
+        _id:
+          type: string
+        "N°_département_(BAN)":
+          type: number
+        "Date_réception_DPE":
+          type: Date
+        "Date_établissement_DPE":
+          type: Date
+        "Date_visite_diagnostiqueur":
+          type: Date
+        "Etiquette_GES":
+          type: string
+        "Etiquette_DPE":
+          type: string
+        "Année_construction":
+          type: number
+        "Surface_habitable_logement":
+          type: number
+        "Adresse_(BAN)":
+          type: string
+        "Code_postal_(BAN)":
+          type: number
+    Search:
+      type: object
+      properties:
+        _id:
+          type: string
+        user:
+          $ref: "#/components/schemas/User"
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              DPE:
+                $ref: "#/components/schemas/DPE"
+              latitude:
+                type: number
+              longitude:
+                type: number
+        parameters:
+          type: object
+          properties:
+            "Etiquette_DPE":
+              type: string
+            "Etiquette_GES":
+              type: string
+            "Code_postal_(BAN)":
+              type: number
+            "Surface_habitable_logement":
+              type: number
+            "Adresse_(BAN)":
+              type: string
+security:
+  - bearerAuth: []
+
+paths:
+  /api/v1/login:
+    post:
+      security: []
+      tags:
+        - auth
+      summary: login
+      operationId: authLogin
+      description: Retrieve a token from email and password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '401':
+          description: Not Authorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ApiSuccess"
+                  - type: object
+                    properties:
+                      data:
+                        $ref: "#/components/schemas/UserToken"
+  /api/v1/register:
+    post:
+      security: []
+      tags:
+        - auth
+      summary: register
+      operationId: authRegister
+      description: Save a new user to the database
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ApiSuccess"
+                  - type: object
+                    properties:
+                      data:
+                        $ref: "#/components/schemas/UserToken"
+  /api/v1/refresh:
+    post:
+      security: []
+      tags:
+        - auth
+      summary: refresh
+      operationId: refreshToken
+      description: Refresh a token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '401':
+          description: Not Authorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ApiSuccess"
+                  - type: object
+                    properties:
+                      data:
+                        $ref: "#/components/schemas/UserToken"
+  /api/v1/geolocalisation/{dpe}/{ges}/{zipcode}/{surface}:
+    get:
+      tags:
+        - geolocalisation
+      summary: Launch geolocalisation
+      operationId: geolocalisationSearch
+      description: Launch geolocalisation with parameters
+      responses:
+        '404':
+          description: No geolocalisation found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ApiSuccess"
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          cached:
+                            type: boolean
+                          query:
+                            $ref: "#/components/schemas/Search"
+  /api/v1/saveSearches/{page}:
+    get:
+      tags:
+        - saveSearches
+      summary: Display all searches
+      operationId: DisplaySearches
+      description: Display all searches in database
+      parameters:
+        - in: path
+          name: page
+          description: Page number
+      responses:
+        '404':
+          description: No searches found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ApiSuccess"
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          query:
+                            $ref: "#/components/schemas/Search"
+  /api/v1/relaunchSearch/{id}:
+    get:
+      tags:
+        - saveSearches
+      summary: Relaunch search
+      operationId: RelaunchSearch
+      description: Relaunch a search existing in database
+      parameters:
+        - in: path
+          name: id
+          description: Search ID to relaunch
+      responses:
+        '404':
+          description: Search not found for provided ID
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ApiSuccess"
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          query:
+                            $ref: "#/components/schemas/Search"
+  /api/v1/saveSearch/{id}:
+    delete:
+      tags:
+        - saveSearches
+      summary: Delete search
+      operationId: DeleteSearch
+      description: Delete a search result
+      parameters:
+        - in: path
+          name: id
+          description: Search ID to delete
+      responses:
+        '404':
+          description: Search not found for provided ID
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ApiSuccess"
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          query:
+                            $ref: "#/components/schemas/Search"
+  /api/v1/user:
+    delete:
+      tags:
+        - user
+      summary: Delete user
+      operationId: DeleteUser
+      description: Delete a user
+      responses:
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ApiSuccess"
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          query:
+                            $ref: "#/components/schemas/User"
