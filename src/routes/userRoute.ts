@@ -1,11 +1,11 @@
-import { Router } from 'express';
-import { authMiddleware } from '../middlewares/authMiddleware';
-import * as userController from '../controllers/userController';
+import { Router } from 'express'
+import { authMiddleware } from '../middlewares/authMiddleware'
+import * as userController from '../controllers/userController'
 
 export function getRouter() {
-    const router = Router();
+    const router = Router()
 
-    router.delete('/api/v1/user', authMiddleware, userController.deleteUser);
+    router.delete('/api/v1/user', authMiddleware, userController.deleteUser)
 
-    return router;
+    return router
 }

@@ -1,11 +1,11 @@
-import * as fs from 'fs';
-import winston from 'winston';
+import * as fs from 'fs'
+import winston from 'winston'
 import 'dotenv/config'
 
-const filename = process.env.LOG_FILE;
+const filename = process.env.LOG_FILE
 
 if (fs.existsSync(filename)) {
-  fs.writeFileSync(filename, ''); // clear log file
+  fs.writeFileSync(filename, '') // clear log file
 }
 
 const transports = [
@@ -18,4 +18,4 @@ const logger = winston.createLogger({
   transports: transports
 });
 
-export default logger;
+export default logger

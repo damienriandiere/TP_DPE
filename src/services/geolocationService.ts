@@ -1,12 +1,12 @@
-import axios from "axios";
-import DPE from "../models/dpeModel";
-import logger from "../utils/logger";
+import axios from "axios"
+import DPE from "../models/dpeModel"
+import logger from "../utils/logger"
 
 export async function getGeolocalisation(dpe: string, ges: string, zipcode: number, surface: number) {
 
-  const address = await getAddress(dpe, ges, zipcode, surface);
+  const address = await getAddress(dpe, ges, zipcode, surface)
 
-  let geolocalisation = [];
+  let geolocalisation = []
 
   for (let i = 0; i < address.length; i++) {
     logger.info("Geolocalisation in progress... with " + address[i].address)
@@ -44,8 +44,10 @@ export async function getAddress(dpe: string, ges: string, zipcode: number, surf
   });
 
   if (dpeFind.length === 0) {
+    logger.error("No DPE found in database. Please try again with different parameters or contact us if the problem persists.")
     throw new Error("No DPE found in database. Please try again with different parameters or contact us if the problem persists.");
   } else {
+    logger.info(dpeFind.length + " DPE found in database")
     let address = [];
     dpeFind.forEach((element) => {
       address.push({
