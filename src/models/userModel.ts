@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model } from 'mongoose'
 
 const userSchema = new Schema({
   name: { type: String, required: true },
@@ -6,6 +6,6 @@ const userSchema = new Schema({
   password: { type: String, required: true }
 });
 
-const UserModel = model(process.env.USERS_COLLECTION, userSchema);
+const UserModel = model(process.env.USERS_COLLECTION, userSchema)
 
-export default UserModel;
+export default UserModel

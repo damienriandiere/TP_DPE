@@ -25,11 +25,11 @@ export async function getGeolocalisation(dpe: string, ges: string, zipcode: numb
       });
     } else {
       logger.error("No geolocalisation found for " + address[i].address)
-      throw new Error('No geolocalisation found');
+      throw new Error('No geolocalisation found')
     }
   }
   logger.info(geolocalisation.length + " geolocalisation found")
-  return geolocalisation;
+  return geolocalisation
 }
 
 
@@ -45,7 +45,7 @@ export async function getAddress(dpe: string, ges: string, zipcode: number, surf
 
   if (dpeFind.length === 0) {
     logger.error("No DPE found in database. Please try again with different parameters or contact us if the problem persists.")
-    throw new Error("No DPE found in database. Please try again with different parameters or contact us if the problem persists.");
+    throw new Error("No DPE found in database. Please try again with different parameters or contact us if the problem persists.")
   } else {
     logger.info(dpeFind.length + " DPE found in database")
     let address = [];

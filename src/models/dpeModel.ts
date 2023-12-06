@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model } from 'mongoose'
 
 const depSchema = new Schema({
     "N°_département_(BAN)": Number,
@@ -13,6 +13,6 @@ const depSchema = new Schema({
     "Code_postal_(BAN)": Number,
 });
 
-const DPE = model(process.env.DPE_COLLECTION, depSchema);
+const DPE = model(process.env.DPE_COLLECTION, depSchema)
 
-export default DPE;
+export default DPE

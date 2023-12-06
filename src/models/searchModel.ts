@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from "mongoose"
 
 const searchesSchema = new Schema({
   user : {
@@ -23,6 +23,6 @@ const searchesSchema = new Schema({
   }]
 });
 
-const Search = model(process.env.SEARCHES_COLLECTION, searchesSchema);
+const Search = model(process.env.SEARCHES_COLLECTION, searchesSchema)
 
-export default Search;
+export default Search
