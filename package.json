@@ -4,6 +4,7 @@
   "description": "TP noté sur le DPE GES",
   "main": "src/app.ts",
   "scripts": {
+    "start": "ts-node src/app.ts",
     "dev": "nodemon src/app.ts",
     "test": "jest"
   },

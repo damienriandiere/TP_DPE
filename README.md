@@ -29,6 +29,7 @@ Each user will be able to:
 
 - [Installation](#installation)
 - [Usage](#usage)
+- [Development mode](#development-mode)
 - [Tests](#tests)
 - [Project structure](#project-structure)
 - [License](#license)
@@ -59,6 +60,12 @@ mv sample.env .env
 
 
 ## Usage
+
+```bash
+npm run start
+```
+
+## Development mode
 
 ```bash
 npm run dev
