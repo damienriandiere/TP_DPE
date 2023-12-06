@@ -58,6 +58,19 @@ npm install
 mv sample.env .env
 ```
 
+```bash	
+# sample.env
+PORT= port number for server
+URL= url for server
+LOG_FILE= output file for logs
+DB_URL= url for database
+DPE_COLLECTION= Name of collection for DPE
+SEARCHES_COLLECTION= Name of collection for searches
+USERS_COLLECTION= Name of collection for users
+ACCESS_KEY_SECRET= secret key for access token
+REFRESH_KEY_SECRET= secret key for refresh token
+```
+
 
 ## Usage
 
@@ -73,7 +86,7 @@ npm run dev
 
 ## Tests
 
-> To run the tests, use :
+> Note : Tests run with coverage.
 
 ```bash
 npm run test
