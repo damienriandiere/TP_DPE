@@ -30,7 +30,7 @@ swaggerLoader(app)
 const PORT = process.env.PORT
 const URL = process.env.URL
 
-app.listen(PORT, () => {
+app.listen(parseInt(PORT), URL, () => {
     logger.info(`Server listening on http://${URL}:${PORT}`)
 });
 
